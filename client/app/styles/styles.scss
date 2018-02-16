@@ -5,3 +5,13 @@
 .done{
   text-decoration:line-through;
 }
+
+.taskItem{
+  display: flex;
+  max-width: 500px;
+  align-items: center;
+  justify-content: space-between;
+  p{
+    cursor: pointer;
+  }
+}

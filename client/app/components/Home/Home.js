@@ -52,15 +52,23 @@ class Home extends Component {
   }*/
 
   toogleTask(task){
-    this.setState(Object.assign({}, this.state, {
-      todos: this.state.todos.map((td, index) => {
-        if(task._id === td._id){
-          td.completed = !td.completed;
-          return td;
-        }
-        return td;
-      })
-    }));
+    task.completed = !task.completed;
+    fetch(`/api/todos/${task.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({newTask: task}),
+      headers: {"Content-Type": "application/json"}
+     })
+      .then(res => res.json())
+      .then(json => {
+        this.setState(Object.assign({}, this.state, {
+          todos: this.state.todos.map((td, index) => {
+            if(task._id === td._id){
+              return task;
+            }
+            return td;
+          })
+        }));
+      });
   }
 
   render() {

@@ -40,13 +40,15 @@ module.exports = (app) => {
       .catch((err) => next(err));
   });
 
-  app.put('/api/todos/:id', (req, res, next) => {
-    Todos.findById(req.params.id)
+  app.put('/api/todos/:tid', (req, res, next) => {
+    Todos.findOneAndUpdate(
+      {id: req.params.tid},
+      req.body.newTask,
+      {upsert: false}
+    )
       .exec()
       .then((todo) => {
-        todo.save()
-          .then(() => res.json(todo))
-          .catch((err) => next(err));
+        res.json(todo);
       })
       .catch((err) => next(err));
   });
