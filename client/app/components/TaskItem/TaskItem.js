@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 const TaskItem = (props) => (
   <li key={props.data._id} className="taskItem">
     <p className={props.data.completed?'done':''} onClick={props.clickHandler}>{props.data.title}</p>
-    <button>x</button>
+    <button onClick={props.clickXHandler}>x</button>
   </li>)
 
 //  <Link to={`/task/${props.data.id}`}>{props.data.title}</Link>

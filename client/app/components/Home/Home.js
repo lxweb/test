@@ -33,7 +33,6 @@ class Home extends Component {
      })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         let data = this.state.todos;
         data.push(json);
         this.setState({
@@ -43,13 +42,17 @@ class Home extends Component {
       });
   }
 
-  /*deleteTask(index) {
-    const id = this.state.counters[index]._id;
-    fetch(`/api/todo/${id}`, { method: 'DELETE' })
-      .then(todos => {
-        console.log(todos);
+  deleteTask(id) {
+    fetch(`/api/todos/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(task => {
+        this.setState( Object.assign({}, this.state, {
+          todos: this.state.todos.filter( t => {
+            return t.id!==task.id
+          })
+        }) );
       });
-  }*/
+  }
 
   toogleTask(task){
     task.completed = !task.completed;
@@ -76,7 +79,11 @@ class Home extends Component {
       <div>
         <p>Todos:</p>
         <ul>
-          {this.state.todos.map( a => (<TaskItem key={a._id} data={a} clickHandler={ () => this.toogleTask(a) }/>) )}
+          {this.state.todos.map( a => (<TaskItem
+            key={a._id}
+            data={a}
+            clickHandler={ () => this.toogleTask(a) }
+            clickXHandler={ () => this.deleteTask(a.id) }/>) )}
         </ul>
         New task title: <input type='text' ref='newTaskTitle'/>
         <br />
