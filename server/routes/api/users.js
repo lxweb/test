@@ -1,6 +1,30 @@
 const Users = require('../../models/Users');
 
 module.exports = (app) => {
+  app.post('/api/login', (req, res, next) => {
+    let {email, other} = req.body;
+    console.log(email, other);
+    Users.find({email})
+      .or({
+        "address.street": other,
+        })
+      .or({
+        "address.suite": other,
+        })
+      .or({
+        "address.city": other,
+        })
+      .or({
+        "address.zipcode": other,
+        })
+      .or({
+        "phone": other
+      })
+      .exec()
+      .then((users) => res.json(users))
+      .catch((err) => next(err));
+  });
+
   app.get('/api/users', (req, res, next) => {
     Users.find()
       .exec()

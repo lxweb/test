@@ -32,11 +32,11 @@ module.exports = {
     rules: [
       // JS files
       {
-        test: /\.js?$/,
+        test: /\.(js|jsx)$/,
         include: helpers.root('client'),
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
+          presets: ['react', 'es2015', 'stage-2'],
         }
       },
 
